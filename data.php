@@ -29,8 +29,8 @@
              label: 'Vendite mensili',
              backgroundColor: 'rgb(255, 99, 132)',
              borderColor: 'rgb(255, 99, 132)',
-             data: <?php echo($data); ?>,
-           }]
+             data: <?php echo json_encode($data); ?>,
+           }],
          },
 
        })
