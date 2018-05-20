@@ -53,14 +53,12 @@
       <canvas id="myChart"></canvas>
     </div>
     <div class="grafico2">
-      <h3>grafici milestone 2</h3>
       <canvas id="myChart1"></canvas>
     </div>
     <div class="grafico2">
       <canvas id="myChart2"></canvas>
     </div>
     <div class="grafico">
-      <h3>grafico milestone 3</h3>
       <canvas id="myChart3"></canvas>
     </div>
 
@@ -69,6 +67,8 @@
      <script type="text/javascript">
      <?php include 'php-charts/data.php' ?>
      $(document).ready(function() {
+
+       var access = <?php echo json_encode($_GET['access']); ?>;
        var ctx = document.getElementById('myChart').getContext('2d');
        var chart = new Chart(ctx,{
          type : 'line',
@@ -82,16 +82,29 @@
            }],
          },
        })
-     })
-     </script>
 
-     <script type="text/javascript">
-     <?php include 'php-charts/data.php' ?>
-     $(document).ready(function() {
-
-       function graficoTorta() {
-
+       if (access == 'guest') {
+         myChart1();
+         myChart2();
+         myChart3();
        }
+       if (access == 'employee') {
+         myChart2();
+         myChart3();
+       }
+       if (access == 'clevel') {
+         myChart3();
+       }
+
+
+
+
+
+
+
+//function//
+
+     function myChart1() {
        var primoGrafico = <?php echo json_encode($graphs['fatturato']); ?>;
        var ctx = document.getElementById('myChart1').getContext('2d');
        var chart = new Chart(ctx,{
@@ -106,12 +119,9 @@
            }],
          },
        })
-     })
-     </script>
+     }
 
-     <script type="text/javascript">
-     <?php include 'php-charts/data.php' ?>
-     $(document).ready(function() {
+     function myChart2() {
        var secondoGrafico = <?php echo json_encode($graphs['fatturato_by_agent']); ?>;
        var venditori = [];
        var vendite = [];
@@ -133,12 +143,9 @@
            }],
          },
        })
-     })
-     </script>
+     }
 
-     <script type="text/javascript">
-     <?php include 'php-charts/data.php' ?>
-     $(document).ready(function() {
+     function myChart3() {
        var terzoGrafico = <?php echo json_encode($graphs['team_efficiency']); ?>;
        var ctx = document.getElementById('myChart3').getContext('2d');
        var chart = new Chart(ctx,{
@@ -163,7 +170,8 @@
          ]
          },
        })
-     })
+     }
+    })
      </script>
   </body>
 </html>
