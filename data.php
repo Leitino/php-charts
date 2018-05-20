@@ -14,7 +14,8 @@
     $graphs = [
       'fatturato' => [
         'type' => 'line',
-        'data' => [1000,1322,1123,2301,3288,988,502,2300,5332,2300,1233,2322]
+        'data' => [1000,1322,1123,2301,3288,988,502,2300,5332,2300,1233,2322],
+        'access' => 'guest'
       ],
       'fatturato_by_agent' => [
         'type' => 'pie',
@@ -23,9 +24,21 @@
           'Giuseppe' => 4000,
           'Mattia' => 3200,
           'Alberto' => 2300
-        ]
-      ]
+        ],
+        'access' => 'employee'
+      ],
+      'team_efficiency' => [
+        'type' => 'line',
+        'data' => [
+          'team1' => [1,0.8,0.7,0.5,0.7,0.8,0.9,0.5,0.6,1,0.3,0.9],
+          'team2' => [0.3,0.6,0.8,0.3,0.6,0.5,0.8,0.7,0.3,0.5,0.6,1],
+          'team3' => [0.2,0.1,0.5,0.1,0.6,0.5,0.4,0.6,0.3,0.4,0.5,0.7],
+        ],
+        'access' => 'clevel'
+      ],
     ];
+  $access = $_GET['access'];
+  //var_dump($access);
 
   $data = [1000,1322,1123,2301,3288,988,502,2300,5332,2300,1233,2322];
 
@@ -45,6 +58,10 @@
     </div>
     <div class="grafico2">
       <canvas id="myChart2"></canvas>
+    </div>
+    <div class="grafico">
+      <h3>grafico milestone 3</h3>
+      <canvas id="myChart3"></canvas>
     </div>
 
 
@@ -71,6 +88,10 @@
      <script type="text/javascript">
      <?php include 'php-charts/data.php' ?>
      $(document).ready(function() {
+
+       function graficoTorta() {
+
+       }
        var primoGrafico = <?php echo json_encode($graphs['fatturato']); ?>;
        var ctx = document.getElementById('myChart1').getContext('2d');
        var chart = new Chart(ctx,{
@@ -110,6 +131,36 @@
              borderColor: 'rgb(0, 0, 0)',
              data: vendite,
            }],
+         },
+       })
+     })
+     </script>
+
+     <script type="text/javascript">
+     <?php include 'php-charts/data.php' ?>
+     $(document).ready(function() {
+       var terzoGrafico = <?php echo json_encode($graphs['team_efficiency']); ?>;
+       var ctx = document.getElementById('myChart3').getContext('2d');
+       var chart = new Chart(ctx,{
+         type : terzoGrafico.type,
+         data : {
+           labels: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+           datasets: [{
+             label: 'team 1',
+             borderColor: 'red',
+             data: <?php echo json_encode($graphs['team_efficiency']['data']['team1']) ?>,
+           },
+           {
+             label :'team2',
+             borderColor : 'yellow',
+             data: <?php echo json_encode($graphs['team_efficiency']['data']['team2']) ?>,
+           },
+           {
+             label : 'team3',
+             borderColor : 'blue',
+             data : <?php echo json_encode($graphs['team_efficiency']['data']['team3']) ?>,
+           }
+         ]
          },
        })
      })
