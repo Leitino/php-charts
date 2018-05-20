@@ -96,12 +96,6 @@
          myChart3();
        }
 
-
-
-
-
-
-
 //function//
 
      function myChart1() {
